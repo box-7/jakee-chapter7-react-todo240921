@@ -8,6 +8,7 @@ export const Todo = () => {
   const [todoText, setTodoText] = useState('');
   const [incompleteTodos, setIncompleteTodos] = useState([]);
   const [completeTodos, setCompleteTodos] = useState([]);
+  // onChangeTodoTextによるeventを検知したら、setTodoTextにテキストが入る
   const onChangeTodoText = (event) => setTodoText(event.target.value);
 
   const onClickAdd = () => {
@@ -25,10 +26,10 @@ export const Todo = () => {
     setIncompleteTodos(newTodos);
   };
 
+  // indexを渡して要素を特定
   const onClickComplete = (index) => {
     const newIncompleteTodos = [...incompleteTodos];
     const newCompleteTodos = [...completeTodos, newIncompleteTodos[index]];
-    // newCompleteTodos.push(newIncompleteTodos[index]);
     newIncompleteTodos.splice(index, 1);
     setCompleteTodos(newCompleteTodos);
     setIncompleteTodos(newIncompleteTodos);
@@ -45,6 +46,7 @@ export const Todo = () => {
   const isMaxLimitIncompleteTodos = incompleteTodos.length >= 5;
 
   return (
+    // const [todoText, setTodoText] = useState('');の、todoTextも変数として渡せる
     <>
       <InputTodo
         todoText={todoText}
@@ -53,14 +55,11 @@ export const Todo = () => {
         disabled={isMaxLimitIncompleteTodos}
       />
 
+      {/* isMaxLimitIncompleteTodosがtrueの場合、右側が表示される */}
       {isMaxLimitIncompleteTodos && (
         <p style={{ color: 'red' }}>登録できるTodoは4個まで</p>
       )}
 
-      {isMaxLimitIncompleteTodos ? (
-        <p style={{ color: 'red' }}>登録できるTodoは4個まで</p>
-      ) : null}
-      {/* {if (isMaxLimitIncompleteTodos) {<p style={{ color: 'red' }}>登録できるTodoは4個まで</p>}} */}
       <IncompleteTodos
         todos={incompleteTodos}
         onClickComplete={onClickComplete}
